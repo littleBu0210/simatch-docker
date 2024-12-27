@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set image name and tag
-IMAGE_NAME="simatch-ros-Kinetic-gazebo7-ubuntu1604"
+IMAGE_NAME="simatch-ros-kinetic-gazebo7-ubuntu1604"
 IMAGE_TAG="latest"
 
 # Build Docker image and display progress and errors
