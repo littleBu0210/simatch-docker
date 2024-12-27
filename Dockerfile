@@ -23,7 +23,8 @@ RUN wget http://packages.ros.org/ros.key -O - | apt-key add -
 RUN echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list
 
 # Install ROS and dependencies
-RUN apt-get update && apt-get install -y ros-melodic-desktop python-rosdep && \
+RUN apt-get update && \
+    apt-get install -y ros-melodic-desktop python-rosdep && \
     apt-get install -y python-rosinstall && \
     rosdep init
 
@@ -42,10 +43,9 @@ RUN echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
 RUN /bin/bash -c "source ~/.bashrc"
 
 # Install catkin tools and libncurses5-dev
-RUN apt-get update && apt-get install -y \
-    python3-catkin-tools \
-    libncurses5-dev \
-    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y python3-catkin-tools libncurses5-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Compile catkin workspace
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
@@ -58,6 +58,9 @@ RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && \
 
 # Source the setup script of the workspace
 RUN echo "source /simatch/devel/setup.bash" >> ~/.bashrc
+
+# Set the working directory to /simatch
+WORKDIR /simatch
 
 # Set default command
 CMD ["/bin/bash"]
