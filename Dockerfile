@@ -39,8 +39,8 @@ RUN sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb
 RUN rosdep fix-permissions && rosdep update
 
 # Source ROS setup script
-RUN echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-RUN /bin/bash -c "source ~/.bashrc"
+RUN echo "source /opt/ros/kinetic/setup.bash" >> /root/.bashrc
+RUN /bin/bash -c "source /root/.bashrc"
 
 # Install catkin tools and libncurses5-dev
 RUN apt-get update && \
@@ -48,7 +48,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Compile catkin workspace
-RUN /bin/bash -c "cd / && \
+RUN /bin/bash -c "source /opt/ros/kinetic/setup.bash && \
+    cd / && \
     git clone https://github.com/nubot-nudt/simatch.git && \
     cd simatch && \
     chmod +x configure && \
@@ -56,7 +57,8 @@ RUN /bin/bash -c "cd / && \
     catkin_make"
 
 # Source the setup script of the workspace
-RUN echo "source /simatch/devel/setup.bash" >> ~/.bashrc
+RUN echo "source /simatch/devel/setup.bash" >> /root/.bashrc
+RUN /bin/bash -c "source /root/.bashrc"
 
 # Set the working directory to /simatch
 WORKDIR /simatch
